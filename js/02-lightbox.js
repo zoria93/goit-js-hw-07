@@ -3,29 +3,20 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 
-const galleryEl = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
+console.log(gallery);
 
-const galleryItemsMarkup = galleryItems.map(galleryItem => `<a class="gallery__item" href="${galleryItem.original}">
-  <img class="gallery__image" src="${galleryItem.preview}" alt="${galleryItem.description}" />
+const createGallery = galleryItems.map(({ preview, original, description }) =>
+` <a class="gallery__item" href="${original}">
+  <img class="gallery__image" src="${preview}" alt="${description}" />
 </a>`
 ).join('');
-galleryEl.insertAdjacentHTML("beforeend", galleryItemsMarkup);
 
-// galleryEl.addEventListener("click", onImageClick);
+gallery.insertAdjacentHTML("beforeend", createGallery);
 
-
-// function onImageClick(event) {
-//     event.preventDefault();
-//     if (event.target.nodeName !== "IMG") {
-//         return;
-//     }
-// };
-// все це є автоматично у бібліотеці
-
-new SimpleLightbox('.gallery a', {
-  captions: 'true',  
+new SimpleLightbox('.gallery a', { 
+  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
-    // nav: true,
-    // navText: ['←','→'],
-});
+
+ });

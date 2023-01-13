@@ -1,25 +1,12 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
 
 console.log(galleryItems);
 
-const galleryEl = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
+console.log(gallery);
 
-// const galleryItemsMarkup = galleryItems.map(galleryItem => `<div class="gallery__item">
-//   <a class="gallery__link" href="${galleryItem.original}">
-//     <img
-//       class="gallery__image"
-//       src="${galleryItem.preview}"
-//       data-source="${galleryItem.original}"
-//       alt="${galleryItem.description}"
-//     />
-//   </a>
-// </div>`
-// ).join('');
-// galleryEl.insertAdjacentHTML("beforeend", galleryItemsMarkup);
-
-const galleryItemsMarkup = galleryItems.map(({ original, preview, description }) => 
-  `<div class="gallery__item">
+const createGallery = galleryItems.map(({ preview, original, description }) =>
+    `<div class="gallery__item">
   <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
@@ -30,31 +17,33 @@ const galleryItemsMarkup = galleryItems.map(({ original, preview, description })
   </a>
 </div>`
 ).join('');
-galleryEl.insertAdjacentHTML("beforeend", galleryItemsMarkup);
 
-galleryEl.addEventListener("click", onImageClick);
+gallery.insertAdjacentHTML("beforeend", createGallery);
 
-let imageInstance;
+gallery.addEventListener('click', handleImageClick);
 
-function onImageClick(event) {
-  event.preventDefault();
-  if (event.target.nodeName !== "IMG") {
-    return;
-  }
+
+function handleImageClick(event) {
+    event.preventDefault();
     
-  const galleryOriginalImageEl = event.target.dataset.source;
-  console.log("🚀 ~ file: 01-gallery.js:31 ~ onImageClick ~ galleryOriginalImageEl", galleryOriginalImageEl);
-  imageInstance = basicLightbox.create(`
-    <img src="${galleryOriginalImageEl}" width="800" height="600">
-`);
-  imageInstance.show();
-  galleryEl.addEventListener("keydown", onEscKeyPress);
-  
-}
+    if (event.target.nodeName !== "IMG") {
+       
+    return;
+    };
+    const originalImage = event.target.dataset.source;
+    const imageInstance = basicLightbox.create(`
+    <img src="${originalImage}" width="800" height="600">`);
 
-function onEscKeyPress(event) {
-  if (event.code === "Escape") {
-    galleryEl.removeEventListener("keydown", onEscKeyPress);
-    imageInstance.close();
-  }
+    imageInstance.show();
+
+    gallery.addEventListener("keydown", onEscKeyPress);
+
+   function onEscKeyPress(event) {
+    if (event.code === "Escape") {
+        gallery.removeEventListener("keydown", onEscKeyPress);
+        imageInstance.close();
+       };
 };
+};
+    
+
